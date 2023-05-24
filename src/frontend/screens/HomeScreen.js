@@ -36,7 +36,7 @@ const HomeScreen = ({ navigation }) => {
   //       title="Ver detalles"
   //       onPress={() => navigation.navigate('ShipmentDetails', { shipment: item })}
   //     />
-  //   </View>
+  //   </View>d
   // );
 
   return (
