@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { View, TextInput, Button } from 'react-native';
+import { View, TextInput, Button, StyleSheet } from 'react-native';
 
 const EditShipmentScreen = ({ route, navigation }) => {
-  const { shipmentId } = route.params; // Obtener el ID del envío de la ruta de navegación
+  const { idEnvio } = route.params; // Obtener el ID del envío de la ruta de navegación
 
   const [origen, setOrigen] = useState('');
   const [destino, setDestino] = useState('');
@@ -15,7 +15,7 @@ const EditShipmentScreen = ({ route, navigation }) => {
     // Puedes utilizar fetch, axios u otra biblioteca para realizar la solicitud al backend
 
     // Ejemplo de solicitud con fetch:
-    fetch(`API_ENDPOINT/shipments/${shipmentId}`)
+    fetch(`http://192.168.0.21:3000/api/sent/${idEnvio}`)
       .then((response) => response.json())
       .then((data) => {
         setOrigen(data.origen);
@@ -26,7 +26,7 @@ const EditShipmentScreen = ({ route, navigation }) => {
       .catch((error) => {
         console.log('Error fetching shipment details:', error);
       });
-  }, [shipmentId]);
+  }, [idEnvio]);
 
   const handleEditShipment = () => {
     // Aquí puedes realizar las acciones necesarias para editar la información del envío en la base de datos
@@ -37,23 +37,27 @@ const EditShipmentScreen = ({ route, navigation }) => {
   };
 
   return (
-    <View>
+    <View style={styles.container}>
       <TextInput
+        style={styles.input}
         placeholder="Ubicación de origen"
         value={origen}
         onChangeText={setOrigen}
       />
       <TextInput
+        style={styles.input}
         placeholder="Ubicación de destino"
         value={destino}
         onChangeText={setDestino}
       />
       <TextInput
+        style={styles.input}
         placeholder="Fecha de entrega estimada"
         value={fechaEntrega}
         onChangeText={setFechaEntrega}
       />
       <TextInput
+        style={styles.input}
         placeholder="Estado del envío"
         value={estado}
         onChangeText={setEstado}
@@ -62,5 +66,20 @@ const EditShipmentScreen = ({ route, navigation }) => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 20,
+    backgroundColor: '#fff',
+  },
+  input: {
+    height: 40,
+    borderColor: 'gray',
+    borderWidth: 1,
+    marginBottom: 10,
+    paddingHorizontal: 10,
+  },
+});
 
 export default EditShipmentScreen;

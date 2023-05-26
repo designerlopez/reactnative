@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { View, TextInput, Button } from 'react-native';
+import { View, TextInput, Button, Alert } from 'react-native';
+import axios from 'axios';
 
-const CreateShipmentScreen = () => {
+const CreateShipmentScreen = ({ navigation }) => {
   const [idEnvio, setIdEnvio] = useState('');
   const [origen, setOrigen] = useState('');
   const [destino, setDestino] = useState('');
@@ -9,11 +10,35 @@ const CreateShipmentScreen = () => {
   const [estado, setEstado] = useState('');
 
   const handleCreateShipment = () => {
-    // Aquí puedes realizar las acciones necesarias para crear el envío en la base de datos
-    // Utiliza los valores de las variables de estado (idEnvio, origen, destino, fechaEntrega, estado)
-    // para enviar los datos al backend o realizar las operaciones requeridas
+    // Verificar campos vacíos
+  if (!idEnvio || !origen || !destino || !fechaEntrega || !estado) {
+    Alert.alert('Campos vacíos', 'Por favor, complete todos los campos');
+    return;
+  }
 
-    // Luego de crear el envío, puedes realizar alguna acción adicional, como redirigir a otra pantalla o mostrar un mensaje de éxito
+    const shipmentData = {
+      idEnvio,
+      origen,
+      destino,
+      fechaEntrega,
+      estado,
+    };
+
+    axios
+      .post('http://192.168.0.21:3000/api/sent/', shipmentData)
+      .then(() => {
+        Alert.alert('Envío creado', 'El envío se ha creado exitosamente');
+        navigation.navigate('Home');
+      })
+      .catch(error => {
+        if (error.response && error.response.status === 500) {
+          // Se recibió una respuesta con código de estado 500
+          console.log('Error interno del servidor:', error.response.data);
+        } else {
+          // Otro tipo de error
+          console.log('Error:', error.message);
+        }
+      });
   };
 
   return (

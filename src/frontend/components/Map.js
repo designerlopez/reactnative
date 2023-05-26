@@ -2,10 +2,10 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 
-const Map = ({ origen, destino }) => {
-  // Coordenadas de origen y destino
-  const originCoordinates = { latitude: origen.latitude, longitude: origen.longitude };
-  const destinationCoordinates = { latitude: destino.latitude, longitude: destino.longitude };
+const Map = () => {
+  // Coordenadas predeterminadas de origen y destino
+  const originCoordinates = { latitude: 37.78825, longitude: -122.4324 };
+  const destinationCoordinates = { latitude: 37.7749, longitude: -122.4194 };
 
   return (
     <View style={styles.container}>
